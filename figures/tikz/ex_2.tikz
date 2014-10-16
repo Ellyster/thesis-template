@@ -1,0 +1,16 @@
+%\tikzsetnextfilename{ex_2rf_network}
+\begin{tikzpicture}[xscale=2.5,yscale=2,auto]
+\tikzstyle{every node}=[font=\small]
+\draw (0,0)  node[RootStyle]   (source) {s};
+\draw (1,0)  node[VertexStyle] (B)      {};
+\draw (1,-1) node[VertexStyle] (C)      {};
+\draw (1,1)  node[VertexStyle] (D)      {};
+\draw (2,0)  node[RootStyle]   (sink)   {t};
+
+\draw[EdgeStyle](source) to node[LabelStyle]{4} (B);
+\draw[EdgeStyle](source) to node[LabelStyle]{2} (C);
+\draw[EdgeStyle](source) to node[LabelStyle]{4} (D);
+\draw[EdgeStyle](B)      to node[LabelStyle]{4} (sink);
+\draw[EdgeStyle](C)      to node[LabelStyle]{2} (sink);
+\draw[EdgeStyle](D)      to node[LabelStyle]{4} (sink);
+\end{tikzpicture}

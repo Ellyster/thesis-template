@@ -1,0 +1,23 @@
+%\tikzsetnextfilename{ex_2rf_flow}
+\begin{tikzpicture}[xscale=2.5,yscale=2,auto]
+\tikzstyle{every node}=[font=\small]
+\draw (0,0)  node[RootStyle]   (source) {s};
+\draw (1,0)  node[VertexStyle] (B)      {};
+\draw (1,-1) node[VertexStyle] (C)      {};
+\draw (1,1)  node[VertexStyle] (D)      {};
+\draw (2,0)  node[RootStyle]   (sink)   {t};
+
+\draw[EdgeStyle,color=BrickRed,bend left=40]   (source) to node[LabelStyle]{\textcolor{BrickRed}{1}}   (B);
+\draw[EdgeStyle,color=Blue,bend right=40] (source) to node[LabelStyle]{\textcolor{Blue}{3}}  (B);
+\draw[EdgeStyle,color=BrickRed]                (source) to node[LabelStyle]{\textcolor{BrickRed}{1}}   (C);
+\draw[EdgeStyle,bend right=45,color=OliveGreen](source) to node[LabelStyle]{\textcolor{OliveGreen}{1}} (C);
+\draw[EdgeStyle,color=OliveGreen]              (source) to node[LabelStyle]{\textcolor{OliveGreen}{1}} (D);
+\draw[EdgeStyle,bend left=45,color=Blue]  (source) to node[LabelStyle]{\textcolor{Blue}{3}}  (D);
+
+\draw[EdgeStyle,color=BrickRed,bend left=40]   (B) to node[LabelStyle]{\textcolor{BrickRed}{1}}   (sink);
+\draw[EdgeStyle,color=Blue,bend right=40] (B) to node[LabelStyle]{\textcolor{Blue}{3}}  (sink);
+\draw[EdgeStyle,color=BrickRed]                (C) to node[LabelStyle]{\textcolor{BrickRed}{1}}   (sink);
+\draw[EdgeStyle,bend right=45,color=OliveGreen](C) to node[LabelStyle]{\textcolor{OliveGreen}{1}} (sink);
+\draw[EdgeStyle,color=OliveGreen]              (D) to node[LabelStyle]{\textcolor{OliveGreen}{1}} (sink);
+\draw[EdgeStyle,bend left=45,color=Blue]  (D) to node[LabelStyle]{\textcolor{Blue}{3}}  (sink);
+\end{tikzpicture}

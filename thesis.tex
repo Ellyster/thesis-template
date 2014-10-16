@@ -1,0 +1,394 @@
+\RequirePackage[l2tabu, orthodox]{nag} % Check if some command or packages are obsolete
+\RequirePackage{fix-cm} % Recent fixes for LaTeX2e
+
+\documentclass[dvipsnames,svgnames,doctor,final,11pt]{new-iscs-thesis}
+% Choose between 'senior' for bachellor thesis, 'master' for master thesis and 'doctor' for doctoral thesis.
+% Choose between 'draft' for the work-in-progress pdf generations presentation and 'final' for the final submition
+% Choose 'interim' for the interim presentation
+% Choose 'english' for
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+% For direct Japanese input. Compilation with XeLaTex required
+%\usepackage{xeCJK} 
+%\setCJKmainfont{Hiragino Mincho Pro} % for \rmfamily
+%\setCJKsansfont{Hiragino Kaku Gothic Pro} % for \sffamily
+%\setCJKmainfont{IPAPMincho} % for \rmfamily
+%\setCJKsansfont{IPAPGothic} % for \sffamily
+%\setCJKfamilyfont{songti}{SimSun} % used as \CJKfamily{songti}
+
+% For direct Japanese input. Using luatex.
+\usepackage{luatexja-fontspec}
+
+%\setmainjfont{YuMincho Medium} % \mcfamily
+%\setsansjfont{YuGothic Medium} % \gtfamily
+%\fontencoding{JY3}
+%\fontseries{yu-osx} 
+%\fontshape{}
+
+%\setmainjfont{MS Mincho} % \mcfamily
+%\setsansjfont{MS Gothic} % \gtfamily
+
+% AMS packages
+\usepackage{amsmath} % AMS math 
+\usepackage{amssymb} % AMS symbols
+\usepackage{amsfonts} % AMS fonts
+\usepackage{amsthm} % AMS theorem and alike
+
+% Other mathematical fonts
+\usepackage{mathrsfs}
+
+% etoolbox package: boolean, CQFD, ...
+\usepackage{etoolbox}
+
+% Algorithm package
+\usepackage[lined,boxed,linesnumbered]{algorithm2e}
+
+% TiKz
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{shapes.misc}
+\usepackage{makecell}
+
+% Recent fixes to LaTeX2e
+\usepackage{fixltx2e}
+
+% Pdf metadata
+\usepackage{datetime}
+\pdfinfo{
+   /Author 	(TODAI Taro)
+   /Keywords 	(topic 1;  topic 2; topic 3)
+   /ModDate	(D:\pdfdate)
+   /Title 	(A Lua-LaTeX thesis template for IS/CS at U-Tokyo)
+}
+
+% Improve spacement between words (to add after language package, here luatexja)
+\usepackage{microtype}
+
+% Improve the tables. Use \toprule, \midrule and \bottomrule instead of \hrule
+\usepackage{booktabs}
+
+% Additional itemize environment: \compactitem \compactenum
+\usepackage{paralist}
+
+% To force a float to appear in the section (or above on the page starting the section
+\usepackage[section, above]{placeins}
+
+% To have nice fraction, specially inline: \nicefrac[]{1}{2} for 1/2
+\usepackage[]{nicefrac}
+
+% To superscript number^nth automatically (do not requiere to be in math mode)
+\usepackage{nth}
+
+% Appendix
+\usepackage[toc,page]{appendix}
+
+% Subfloats with \subfigure and \subtable
+\usepackage{caption}
+\usepackage{subcaption}
+
+%----------------------------------------------------------------------------------------
+%	NEW COMMANDS
+%----------------------------------------------------------------------------------------
+
+% Sets
+\newcommand{\C}{\mathscr{C}}
+\newcommand{\F}{\mathscr{F}}
+\newcommand{\R}{\mathbb{R}}
+
+% Variables
+\newcommand{\funF}{$\mathcal{F}$}
+
+% Set unions
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+    \baselineskip\z@skip \lineskiplimit-\maxdimen
+    \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+  #1{\ifx#1\mathop\vphantom{#2}\fi
+    \mathpalette\mov@rlay{#2\cr#3}
+  }
+  \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+% new theorem and alike
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+%----------------------------------------------------------------------------------------
+%	TIKZ STYLES
+%----------------------------------------------------------------------------------------
+\tikzset{RootStyle/.style = % For source and sink
+{
+  shape          = circle,
+  draw           = red!50!black!50,
+  thick,
+  top color      = white,
+  bottom color   = red!50!black!20,
+  text           = black,
+  inner sep      = .2pt,
+  outer sep      = 0pt,
+  minimum size   = 2.5 mm
+}}
+\tikzset{VertexStyle/.style = % For normal nodes
+{
+  shape          = circle,
+  draw           = black!50,
+  top color      = white,
+  bottom color   = black!20,
+  text           = black,
+  inner sep      = .2pt,
+  outer sep      = 0pt,
+  minimum size   = 1.75 mm
+}}
+\tikzset{EdgeStyle/.style  = 
+{
+}}
+\tikzset{LabelStyle/.style =   
+{%draw, thin,
+  %fill           = blue!10,
+  text           = black,
+  inner sep      = .2pt,
+  outer sep      = 1pt,
+  font           = \small,
+  minimum size   = 2.15 mm
+}}
+\tikzset{LegendStyle/.style =
+{
+  shape          = rectangle,
+  draw           = black!90,
+  top color      = white,
+  bottom color   = black!20,
+  text           = black,
+  inner sep      = 3pt,
+  outer sep      = 0pt,
+  minimum size   = 15 mm
+}}
+%----------------------------------------------------------------------------------------
+%	OTHER SETUP
+%----------------------------------------------------------------------------------------
+\graphicspath{{images/}}
+
+% Math Operators
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% To adapt the placement of floats
+% \renewcommand{\textfraction}{0.05}
+% \renewcommand{\topfraction}{0.8}
+% \renewcommand{\bottomfraction}{0.8}
+% \renewcommand{\floatpagefraction}{0.75}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%	DYNAMIC PREAMBLE
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\newbool{static_preamble}
+\setbool{static_preamble}{false}
+\ifbool{static_preamble}{%true
+  \csname endofdump\endcsname
+}{}%false
+
+% ToDoNotes
+% Documentation at:
+% http://www.tex.ac.uk/ctan/macros/latex/contrib/todonotes/todonotes.pdf
+\newbool{use_todo}
+\setbool{use_todo}{true}
+\ifbool{use_todo}{%true
+  \usepackage[colorinlistoftodos, shadow]{todonotes}
+  \setlength{\marginparwidth}{2.8cm}
+}{%false
+\usepackage[disable]{todonotes}
+}
+
+% Syntax only
+\newbool{syntax_only}
+\setbool{syntax_only}{false}
+\ifbool{syntax_only}{%true
+  \usepackage{syntonly}
+  \syntaxonly
+}{}%false
+
+% Appendix boolean
+\newbool{print_appendix}
+\setbool{print_appendix}{true}
+
+%----------------------------------------------------------------------------------------
+%	TIKZ EXTERNAL
+%----------------------------------------------------------------------------------------
+\newbool{print_fig_external}
+\setbool{print_fig_external}{false}
+\ifbool{print_fig_external}{%true
+  \usepgfplotslibrary{external}
+  \tikzexternalize[prefix=figures/]
+  \tikzset{external/system call={lualatex -shell-escape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}}
+}{}%false
+
+% todo commands
+\ifbool{print_fig_external}{%true
+\newcommand{\toreader}[2]{\tikzexternaldisable\todo[inline,color=blue!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\critical}[2]{\tikzexternaldisable\todo[inline,color=red!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\related}[2]{\tikzexternaldisable\todo[inline,color=green!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\normaltodo}[2]{\tikzexternaldisable\todo[inline,color=orange!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\otoreader}[2]{\tikzexternaldisable\todo[color=blue!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\ocritical}[2]{\tikzexternaldisable\todo[color=red!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\orelated}[2]{\tikzexternaldisable\todo[color=green!30,caption={#1}]{ #2 }\tikzexternalenable}
+\newcommand{\onormaltodo}[2]{\tikzexternaldisable\todo[color=orange!30,caption={#1}]{ #2 }\tikzexternalenable}
+}{%false
+\newcommand{\toreader}[2]{\todo[inline,color=blue!30,caption={#1}]{ #2 }}
+\newcommand{\critical}[2]{\todo[inline,color=red!30,caption={#1}]{ #2 }}
+\newcommand{\related}[2]{\todo[inline,color=green!30,caption={#1}]{ #2 }}
+\newcommand{\normaltodo}[2]{\todo[inline,color=orange!30,caption={#1}]{ #2 }}
+\newcommand{\otoreader}[2]{\todo[color=blue!30,caption={#1}]{ #2 }}
+\newcommand{\ocritical}[2]{\todo[color=red!30,caption={#1}]{ #2 }}
+\newcommand{\orelated}[2]{\todo[color=green!30,caption={#1}]{ #2 }}
+\newcommand{\onormaltodo}[2]{\todo[color=orange!30,caption={#1}]{ #2 }}
+}
+
+%----------------------------------------------------------------------------------------
+%	FRONT PAGE
+%----------------------------------------------------------------------------------------
+\etitle{A Lua-LaTeX thesis template for IS/CS at U-Tokyo}
+\jtitle{東大IS/CSのLua-LaTeXのテンプレート}
+
+\eauthor{TODAI Taro}
+\jauthor{東大太郎}
+
+\esupervisor{HONGO Hanako}
+\jsupervisor{本郷花子}
+\supervisortitle{Professor} % Professor, etc.
+
+\date{\today}%February XX, 20XX
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%	COMMAND FORCED TO BE AT END OF THE PREAMBLE
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+% Reference packages (in this order, almost always after every other package)
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage{cleveref} % Call \cref for lower-case reference and /Cref for upper-case
+%\crefname{environment}{singular}{plural} to redefine the output of \cref for this environment
+\crefname{prop}{proposition}{propositions}
+\crefname{cor}{corollary}{corollaries}
+\crefname{lem}{lemma}{lemmata}
+\crefname{thm}{theorem}{theorems}
+\crefname{defn}{definition}{definitions}
+\crefname{conj}{conjecture}{conjectures}
+\crefname{exmp}{example}{examples}
+\crefname{rem}{remark}{remarks}
+\crefname{note}{note}{notes}
+\crefname{case}{case}{cases}
+
+% Natbib bibliography package (after hyperref)
+\usepackage[longnamesfirst,colon,square,sort]{natbib}
+\renewcommand{\harvardurl}[1]{\textbf{URL:} \url{#1}} % To make _ compatible
+
+% Glossary (after hyperref)
+\usepackage[xindy,toc,acronym,nowarn]{glossaries}
+\makeglossaries
+\input{glossary/glossary}
+
+\begin{document}
+\begin{eabstract}\input{content/abstract_e}\end{eabstract}
+\begin{jabstract}\input{content/abstract_j}\end{jabstract}
+
+\maketitle
+
+\begin{acknowledge}\input{content/acknowledge}\end{acknowledge}
+
+\frontmatter %% 前付け
+\tableofcontents % 目次
+
+%\todototoc % To add todolist to toc
+%\listoftodos % To list the todo notes
+%-------------------
+\mainmatter %% 本文 % Begin numeric (1,2,3...) page numbering
+
+%\toreader{To the reader}{To make the redaction and the reading of this draft thesis easier, I will use different colored notes.
+%\begin{itemize}
+ %\item Blue indicates notes at the attention of the reader
+ %\item Red indicates errors or critical parts that need to be fixed asap
+ %\item Green indicates lack of references or matter that need to be checked from other works
+ %\item Orange concerns normal (other) notes
+%\end{itemize}
+%If any reader has the need to correct directly the latex document, please be consistent with the notes colors. The macro to use them can be found in the header of the main file.
+%}
+%\critical{Example of critical ToDoNotes}{Example of critical ToDoNotes, normally in red.}
+%\related{Example of related work ToDoNotes}{Example of related work ToDoNotes, normally in green.}
+%\normaltodo{Example of normal ToDoNotes}{Example of normal ToDoNotes, normally in orange.}
+
+%\normaltodo{List of Latex macros or environment to implement}{
+%List of Latex macros or environment to implement:
+%\begin{itemize}
+ %\item Environment for Linear Program or alike
+%\end{itemize}
+
+%}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTERS (by input)
+%----------------------------------------------------------------------------------------
+\input{content/chapter1_introduction}
+\input{content/chapter2_preliminaries}
+\input{content/chapter3toN_contributions}
+\input{content/chapterN+1_experiments}
+\input{content/chapterN+2_conclusions}
+
+\backmatter
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\label{Bibliography}
+
+\nocite{*} % To print all the references without citation
+
+\bibliographystyle{unsrtnat}
+%\bibliographystyle{plain} % 参考文献
+\bibliography{bibliography/bibliography} %
+
+%----------------------------------------------------------------------------------------
+%	APPENDICES
+%----------------------------------------------------------------------------------------
+\ifbool{print_appendix}{%true
+  \begin{appendices}
+    \input{appendices/appendix_A_code}
+  \end{appendices}
+}{}%false
+
+%----------------------------------------------------------------------------------------
+%	LISTS
+%----------------------------------------------------------------------------------------
+\listoffigures % 図目次
+\listoftables % 表目次
+%\lstlistoflistings % ソースコード目次
+
+%----------------------------------------------------------------------------------------
+%	GLOSSARY
+%----------------------------------------------------------------------------------------
+\printglossaries
+
+%-------------------
+\end{document}
